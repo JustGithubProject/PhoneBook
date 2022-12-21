@@ -1,2 +1,53 @@
 {% extends 'base.html'%}
 {% block title%}Main Page{%endblock%}
+{% block body%}
+<div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Search</h5>
+                <p class="card-text">
+                    <div class="row">
+                            <div class="col-6">
+                                <form action="{% url 'search' %}" method="get">
+                                    <div class="form-group form-row">
+                                        <div class="col-10">
+                                            <input type="text" class="form-control" name="q" placeholder="Search by id">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit" class="btn btn-success">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Phones</h5>
+        <h6 class="card-subtitle">Subtitle will be here</h6>
+        <p class="card-text">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phones</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for person in persons%}
+            <tr>
+                <th scope="row">{{person.pk}}</th>
+                <td>{{person.name}}</td>
+                <td>{{ person.all_phones_to_string}}</td>
+                <td><a class="btn btn-sm btn-danger" href="{% url 'delete' person.pk %}">Delete</a></td>
+            </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+        </p>
+    </div>
+</div>
+{%endblock%}

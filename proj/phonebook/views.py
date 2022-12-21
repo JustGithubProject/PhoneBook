@@ -1,11 +1,17 @@
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
-from .models import Phone
+from django.views.generic import TemplateView, CreateView, DeleteView, ListView
+
 from .forms import CreatePersonForm
+from .models import Phone, Person
 
 
 class HomePageView(TemplateView):
     template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['persons'] = Person.objects.all()
+        return context
 
 
 class AddPhoneFormView(CreateView):
@@ -19,3 +25,22 @@ class AddPhoneFormView(CreateView):
             Phone.objects.create(phone=phone_number, contact=self.object)
 
         return super().get_success_url()
+
+
+class DeletePhoneView(DeleteView):
+    model = Person
+    template_name = "delete_person.html"
+    success_url = reverse_lazy('home')
+
+
+class Search(ListView):
+    template_name = "search.html"
+    context_object_name = "numbers"
+
+    def get_queryset(self):
+        return Phone.objects.filter(contact=self.request.GET.get('q'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q')
+        return context

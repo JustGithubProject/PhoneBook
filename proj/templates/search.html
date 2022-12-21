@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block title%}1{%endblock%}
+{% block body%}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Phones</h5>
+        <p class="card-text">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in numbers%}
+            <tr>
+                <th scope="row">{{i.pk}}</th>
+                <td>{{i.phone}}</td>
+                <td>{{i.contact}}</td>
+
+            </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+{%endblock%}
