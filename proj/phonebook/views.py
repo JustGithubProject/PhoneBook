@@ -38,7 +38,7 @@ class Search(ListView):
     context_object_name = "numbers"
 
     def get_queryset(self):
-        return Phone.objects.filter(contact__name__icontains=self.request.GET.get('q'))
+        return Phone.objects.filter(contact__name__icontains=self.request.GET.get('q')).select_related("contact")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
